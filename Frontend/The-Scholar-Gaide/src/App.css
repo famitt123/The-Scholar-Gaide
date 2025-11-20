@@ -6,16 +6,12 @@
 }
 
 .logo {
-  height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 1em gold);
 }
 
 @keyframes logo-spin {
@@ -46,7 +42,7 @@
 .logo {
   padding-bottom: 0px;
   aspect-ratio: auto;
-  height: 12em;
+  height: 15em;
 }
 
 .submitEssay {
@@ -117,10 +113,12 @@
 .essayAnalysis {
   border-radius: 10px;
   background-color: grey;
+  color: white;
   padding: 40px;
   margin-bottom: 30px;
   margin-left: 10%;
   margin-right: 10%;
+  text-align: left;
 }
 
 .scholarships {
@@ -158,6 +156,11 @@
   border-color: white;
 }
 
+.insertScholarship:disabled {
+  background-color: rgb(68, 68, 68);
+  border-color: white;
+}
+
 .scholarshipFlexbox {
   display: flex;
   flex-direction: column;
@@ -181,4 +184,45 @@
   margin-top: 20px;
   margin-right: 20px;
   margin-bottom: 20px;
+}
+
+.scholarshipRemoveText {
+  font-size: 14px;
+  font-style: italic;
+  text-decoration: underline;
+  color: blue;
+  will-change: color;
+  transition: color 0.25s;
+}
+
+.scholarshipRemoveText:hover {
+  color: red;
+}
+
+.scholarshipRemoveText:active {
+  color: yellow;
+}
+
+.expandCollapseText {
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: initial;
+  color: white;
+  margin-bottom: 15px;
+  will-change: color;
+  transition: color 0.25s;
+}
+
+.expandCollapseText:hover {
+  color: red;
+  text-decoration: underline;
+}
+
+.expandCollapseText:active {
+  color: white;
+  text-decoration: initial;
+}
+
+.scholarshipFlexbox .expandCollapseText {
+  background-color: transparent;
 }

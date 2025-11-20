@@ -7,6 +7,11 @@ export default function Scholarships() {
   const [collapseList, setCollapseList] = useState(true); // If true, collapse the scholarship div and only show COLLAPSE_LIMIT scholarships.
   const COLLAPSE_LIMIT = 5; // Number of scholarships that can be shown if collapseList is true
   const MAX_NUM_OF_SCHOLARSHIPS = 1; // Max number of scholarships in scholarshipObjs
+  const LINK_TEXT_BOX = useRef(null); // Text box to insert scholarship links with
+  const LINK_ERROR_TEXT = useRef(null); // Error text beneath the text box
+  const [showLinkErrorText, setShowLinkErrorText] = useState(false); // If true, show LINK_ERROR_TEXT.
+  const [linkErrorTextContent, setLinkErrorTextContent] =
+    useState("Placeholder");
 
   /**************************************************************
    * ------------------ REMEMBER! ----------------------------
@@ -60,6 +65,16 @@ export default function Scholarships() {
     setCollapseList(!collapseList);
   };
 
+  const showLinkError = () => {
+    setShowLinkErrorText(true);
+    // Dismount LINK_ERROR_TEXT after 10 seconds
+    const TIMEOUT = 10000; // 10 seconds
+    const timeOutPromise = new Promise((resolve, reject) => {
+      setTimeout(() => resolve(), TIMEOUT);
+    });
+    timeOutPromise.then(() => setShowLinkErrorText(false));
+  };
+
   const scholarshipInterfaceStyle = {
     borderTopLeftRadius: "10px",
     borderTopRightRadius: "10px",
@@ -75,38 +90,80 @@ export default function Scholarships() {
         <br></br>Let us find scholarships online that fit your essay the best!
       </p>
       <div className="scholarships" style={scholarshipInterfaceStyle}>
-        <form>
-          <label htmlFor="linkbox" style={{ marginRight: "1%" }}>
-            Insert New Link:{" "}
-          </label>
-          <input
-            type="text"
-            id="linkbox"
-            name="link"
-            style={{ width: "40%", fontSize: "15px", borderRadius: "8px" }}
-          ></input>
-          <input
-            type="submit"
-            className="insertScholarship"
-            value="Insert"
-            disabled={
-              scholarshipObjs.length === MAX_NUM_OF_SCHOLARSHIPS ? true : false
+        <label htmlFor="linkbox" style={{ marginRight: "1%" }}>
+          Insert New Link:
+        </label>
+        <input
+          type="text"
+          id="linkbox"
+          name="link"
+          style={{ width: "40%", fontSize: "15px", borderRadius: "8px" }}
+          ref={LINK_TEXT_BOX}
+        ></input>
+        <input
+          type="button"
+          className="insertScholarship"
+          value="Insert"
+          disabled={
+            scholarshipObjs.length === MAX_NUM_OF_SCHOLARSHIPS ? true : false
+          }
+          onClick={() => {
+            // Check if the LINK_TEXT_BOX is empty
+            if (
+              LINK_TEXT_BOX.current.value === "" ||
+              LINK_TEXT_BOX.current.value === undefined ||
+              LINK_TEXT_BOX.current.value === null
+            ) {
+              setLinkErrorTextContent(
+                "The user has not provided a scholarship link."
+              );
+              showLinkError();
+              console.log("The user has not provided a scholarship link.");
+              return;
             }
-          ></input>
-          <button
-            className="insertScholarship"
-            type="button"
-            style={{ marginLeft: "0.1em" }}
-            onClick={() =>
-              addScholarship("TODO: REPLACE THIS STRING WITH A PROPER OBJ")
+
+            // Check if the value of the LINK_TEXT_BOX is a valid URL
+            try {
+              new URL(LINK_TEXT_BOX.current.value);
+            } catch {
+              setLinkErrorTextContent(
+                "What you have entered into the text box is NOT a valid URL."
+              );
+              showLinkError();
+              console.log("The value of the LINK_TEXT_BOX is NOT a valid URL.");
+              return;
             }
-            disabled={
-              scholarshipObjs.length === MAX_NUM_OF_SCHOLARSHIPS ? true : false
-            }
+            setShowLinkErrorText(false);
+            addScholarship("TODO: REPLACE THIS STRING WITH A PROPER OBJ");
+          }}
+        ></input>
+        <button
+          className="insertScholarship"
+          type="button"
+          style={{ marginLeft: "0.1em" }}
+          onClick={() =>
+            addScholarship("TODO: REPLACE THIS STRING WITH A PROPER OBJ")
+          }
+          disabled={
+            scholarshipObjs.length === MAX_NUM_OF_SCHOLARSHIPS ? true : false
+          }
+        >
+          Find Scholarships
+        </button>
+        {showLinkErrorText ? (
+          <p
+            ref={LINK_ERROR_TEXT}
+            style={{
+              color: "rgb(190, 0, 0)",
+              fontWeight: "bold",
+              paddingBottom: "1%",
+              marginTop: "0%",
+              marginBottom: "0%",
+            }}
           >
-            Find Scholarships
-          </button>
-        </form>
+            {linkErrorTextContent}
+          </p>
+        ) : null}
       </div>
       <div className="scholarshipFlexbox">
         {scholarshipObjs.map((scholarship, index) => {

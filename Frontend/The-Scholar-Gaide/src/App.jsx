@@ -26,25 +26,23 @@ function App() {
       </h1>
       <div className="essay">
         <p>Paste your essay here.</p>
-        <form>
-          <textarea
-            name="essay"
-            id="essay_textarea"
-            rows={20}
-            cols={60}
-            style={{ fontSize: "18px", borderRadius: "10px" }}
-            placeholder="Paste your essay in here."
-          ></textarea>
-          <br></br>
-          <input
-            type="button"
-            className="submitEssay"
-            value={"Start analysis"}
-            onClick={() => {
-              setAnalysisAvailable(true);
-            }}
-          ></input>
-        </form>
+        <textarea
+          name="essay"
+          id="essay_textarea"
+          rows={20}
+          cols={60}
+          style={{ fontSize: "18px", borderRadius: "10px" }}
+          placeholder="Paste your essay in here."
+        ></textarea>
+        <br></br>
+        <input
+          type="button"
+          className="submitEssay"
+          value={"Start analysis"}
+          onClick={() => {
+            setAnalysisAvailable(true);
+          }}
+        ></input>
       </div>
       <Scholarships />
       {!analysisAvailable ? null : <EssayAnalysis />}

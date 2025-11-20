@@ -186,43 +186,35 @@
   margin-bottom: 20px;
 }
 
-.scholarshipRemoveText {
-  font-size: 14px;
+.removeScholarship {
+  border-radius: 8px;
+  border: 1px solid white;
+  padding: 0.6em 1.2em;
+  margin: 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: Helvetica;
+  background-color: red;
+  cursor: pointer;
+  transition: border-color 0.25s, background-color 0.25s;
+  color: white;
+  will-change: background-color;
+}
+
+.removeScholarship:hover {
+  background-color: rgb(7, 155, 56);
+  border-color: white;
+}
+
+#aiInGaide {
   font-style: italic;
-  text-decoration: underline;
-  color: blue;
-  will-change: color;
-  transition: color 0.25s;
+  color: inherit;
+  -webkit-text-stroke: 0px transparent;
+  will-change: color, -webkit-text-stroke;
+  transition: color 0.25s, -webkit-text-stroke 0.3s;
 }
 
-.scholarshipRemoveText:hover {
-  color: red;
-}
-
-.scholarshipRemoveText:active {
-  color: yellow;
-}
-
-.expandCollapseText {
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: initial;
-  color: white;
-  margin-bottom: 15px;
-  will-change: color;
-  transition: color 0.25s;
-}
-
-.expandCollapseText:hover {
-  color: red;
-  text-decoration: underline;
-}
-
-.expandCollapseText:active {
-  color: white;
-  text-decoration: initial;
-}
-
-.scholarshipFlexbox .expandCollapseText {
-  background-color: transparent;
+#theScholarGaideLabel:hover #aiInGaide {
+  color: gold;
+  -webkit-text-stroke: 1.5px black;
 }

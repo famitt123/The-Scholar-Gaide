@@ -20,11 +20,8 @@ function App() {
           alt="The mortarboard podium logo"
         />
       </div>
-      <h1>
-        The Scholar G
-        <i>
-          <u>ai</u>
-        </i>
+      <h1 id="theScholarGaideLabel">
+        The Scholar G<span id="aiInGaide">ai</span>
         de
       </h1>
       <div className="essay">

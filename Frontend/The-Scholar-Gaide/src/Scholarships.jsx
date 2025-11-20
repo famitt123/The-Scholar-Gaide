@@ -1,11 +1,12 @@
 import "./App.css";
-import { useEffect } from "react";
 import { useState } from "react";
+import { useRef } from "react";
 
 export default function Scholarships() {
   const [scholarshipObjs, setScholarshipObjs] = useState([]); // Array of scholarship objects
   const [collapseList, setCollapseList] = useState(true); // If true, collapse the scholarship div and only show COLLAPSE_LIMIT scholarships.
   const COLLAPSE_LIMIT = 5; // Number of scholarships that can be shown if collapseList is true
+  const MAX_NUM_OF_SCHOLARSHIPS = 1; // Max number of scholarships in scholarshipObjs
 
   /**************************************************************
    * ------------------ REMEMBER! ----------------------------
@@ -22,7 +23,14 @@ export default function Scholarships() {
    */
   const addScholarship = (scholarshipObj) => {
     if (scholarshipObj === null || scholarshipObj === undefined) {
-      throw "scholarshipObj must not be null or undefined";
+      throw "scholarshipObj must not be null or undefined.";
+    }
+
+    if (scholarshipObjs.length === MAX_NUM_OF_SCHOLARSHIPS) {
+      console.log(
+        "The limit for the number of scholarships in the list has been reached."
+      );
+      return;
     }
 
     const exampleObj = {
@@ -42,6 +50,7 @@ export default function Scholarships() {
     if (scholarshipKey < 0 || scholarshipKey >= scholarshipObjs.length) {
       throw "scholarshipKey is outside the bounds of scholarshipObjs";
     }
+
     const copy = [...scholarshipObjs];
     copy.splice(scholarshipKey, 1); // Removes 1 element starting from scholarshipKey
     setScholarshipObjs(copy);
@@ -80,6 +89,9 @@ export default function Scholarships() {
             type="submit"
             className="insertScholarship"
             value="Insert"
+            disabled={
+              scholarshipObjs.length === MAX_NUM_OF_SCHOLARSHIPS ? true : false
+            }
           ></input>
           <button
             className="insertScholarship"
@@ -87,6 +99,9 @@ export default function Scholarships() {
             style={{ marginLeft: "0.1em" }}
             onClick={() =>
               addScholarship("TODO: REPLACE THIS STRING WITH A PROPER OBJ")
+            }
+            disabled={
+              scholarshipObjs.length === MAX_NUM_OF_SCHOLARSHIPS ? true : false
             }
           >
             Find Scholarships
@@ -101,6 +116,7 @@ export default function Scholarships() {
           return (
             <Scholarship
               key={index}
+              index={index}
               name={scholarship.name}
               description={scholarship.description}
               link={scholarship.link}
@@ -110,13 +126,13 @@ export default function Scholarships() {
         })}
 
         {scholarshipObjs.length <= COLLAPSE_LIMIT ? null : (
-          <a
-            className="expandCollapseText"
+          <button
+            className="insertScholarship"
+            type="button"
             onClick={toggleCollapseList}
-            href="javascript:;"
           >
             {collapseList ? "Expand" : "Collapse"}
-          </a>
+          </button>
         )}
       </div>
     </div>
@@ -124,10 +140,10 @@ export default function Scholarships() {
 }
 
 /**
- * This Scholarship component has a "key" prop (corresponnding to the index in scholarshipObjs)
+ * This Scholarship component has an "index" prop (corresponnding to the index in scholarshipObjs)
  * in order for the map function above to not throw errors.
  */
-function Scholarship({ key, name, description, link, removeFunction }) {
+function Scholarship({ index, name, description, link, removeFunction }) {
   return (
     <div>
       <h2>{name}</h2>
@@ -135,13 +151,14 @@ function Scholarship({ key, name, description, link, removeFunction }) {
       <p>
         Link: <a href={link}>{link}</a>
       </p>
-      <a
-        className="scholarshipRemoveText"
-        onClick={() => removeFunction(key)}
-        href="javascript:;"
+      <button
+        className="removeScholarship"
+        type="button"
+        style={{ marginLeft: "0.1em" }}
+        onClick={() => removeFunction(index)}
       >
         Remove
-      </a>
+      </button>
     </div>
   );
 }
